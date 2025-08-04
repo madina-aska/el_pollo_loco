@@ -1,41 +1,33 @@
 class DrawableObject {
     x = 120;
-    y = 280;
+    y;
     img;
-    height = 150;
-    width = 100;
+    height;
+    width;
     imageCache = {};
-    currentImage = 0;
+    offset = { top: 0, bottom: 0, left: 0, right: 0 };
 
+
+     // Draw the current image on the canvas context at (x, y) with width and height
+    drawObject(ctx) {
+        ctx.drawImage(this.img, this.x, this.y, this.width, this.height);
+    }
+
+    // Load a single image from a given path
      loadImage(path) {
         this.img = new Image();
         this.img.src = path;
     }
 
-    draw(ctx) {
-        ctx.drawImage(this.img, this.x, this.y, this.width, this.height);   //mo.width/mo.height are the end points 
-
+    // Preload multiple images and cache them for reuse
+     loadImages(images) {
+        images.forEach(path => {
+            let image = new Image();
+            image.src = path;
+            this.imageCache[path] = image;
+        })
     }
 
-    drawFrame(ctx) {
-
-        if ( this instanceof Character || this instanceof Chicken){  //add frame on the (instanceof) of character/chicken
-            ctx.beginPath();
-            ctx.lineWidth = '5';
-            ctx.strokeStyle = 'blue';
-            ctx.rect(this.x, this.y, this.width, this.height);
-            ctx.stroke();
-        }  
-    }
-
-     loadImages(arr) {
-        arr.forEach((path) => {
-            let img = new Image();
-            img.src = path;
-            // img.style = 'transform: scaleX(-1)';
-            this.imageCache[path] = img;
-            
-        });
-    }
+   
 
 }
