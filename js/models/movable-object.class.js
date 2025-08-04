@@ -1,76 +1,118 @@
-class MovableObject extends DrawableObject {
-    
-    speed = 0.15;
+class MovableObject extends DrawableObject { 
+    speedX = 0.1;
+    attackSpeedX = 3;
     otherDirection = false;
     speedY = 0;
-    acceleration = 2.5;
+    acceleration = 0.25;
     energy = 100;
     lastHit = 0;
+    currentImage = 0;
+    canBeRemoved = false;
+    animationIntervals = [];
 
-
+    
+    // Applies gravity to the object by updating vertical position and speed
     applyGravity() {
         setInterval(() => {
-            if (this.isAboveGround() || this.speedY > 0) {  //jumping above is always +
+            if (!gamePaused && this.isAboveGround() || !gamePaused && this.speedY > 0) {
                 this.y -= this.speedY;
-                this.speedY -= this.acceleration;  
-            }    
-        }, 1000 / 25);
+                this.speedY -= this.acceleration;
+            }
+        }, 1000 / 100);
     }
-
+    
+    // Returns true if the object is above ground level
     isAboveGround() {
-        if (this instanceof ThrowableObject) {  //Throwable object should always fall
-            return true;
+        if (this instanceof ThrowableObject) {
+            return this.y < 550;
         } else {
-        return this.y < 140;
+            return this.y < 135;
         }
-    }    
+    }
 
-    //character.isColliding(chicken);
+
+    // Checks collision with another movable object
     isColliding(mo) {
-        return this.x + this.width > mo.x && 
-               this.y + this.height > mo.y &&
-               this.x < mo.x &&
-               this.y < mo.y + mo.height; 
+        return (this.x + this.width - this.offset.right) > (mo.x + mo.offset.left) &&
+            (this.y + this.height - this.offset.bottom) > (mo.y + mo.offset.top) &&
+            (this.x + this.offset.left) < (mo.x + mo.width - mo.offset.right) &&
+            (this.y + this.offset.top) < (mo.y + mo.height - mo.offset.bottom) 
+            
     }
 
-    hit() {
-        this.energy -= 5;
-        if(this.energy < 0) {
-            this.energy = 0;
-        } else {
-            this.lastHit = new Date().getTime();
 
-        }
+   // Reduces energy and records hit timestamp  
+   hit() {
+        this.energy -= 2.5;
+        this.lastHit = new Date().getTime();
     }
 
+
+    // Checks if the object is still alive (has energy)
+    isAlive() {
+        return this.energy > 0;
+    }
+
+    // Checks if the object was recently hurt
     isHurt() {
-        let timePassed = new Date().getTime() - this.lastHit; //difference in ms
-        timePassed = timePassed / 1000;
-        return timePassed < 1; 
-
+        let timePassed = new Date().getTime() - this.lastHit;
+        return timePassed < 400;
     }
 
-    isDead(){
+   // Checks if the object is dead (energy is 0)
+   isDead() {
         return this.energy == 0;
     }
 
-
+    // Plays the next frame of an animation from a list of images
     playAnimation(images) {
-        let i = this.currentImage % images.length;  //0 % 6 => 0, 1 % 6 => 1,  6 % 6 => 0, then it starts back from 0  
+        let i = this.currentImage % images.length;
         let path = images[i];
         this.img = this.imageCache[path];
         this.currentImage++;
     }
-
+    
+    // Moves the object to the right
     moveRight() {
-        this.x += this.speed;
+        this.x += this.speedX;
+    }
+
+    // Moves the object to the left
+    moveLeft() {
+        this.x -= this.speedX;
+    }
+    
+    // Moves the object quickly to the left (attack motion)
+    attackLeft() {
+        this.x -= this.attackSpeedX;
+    }
+
+    // Moves the object quickly to the right (attack motion)
+    attackRight() {
+        this.x += this.attackSpeedX
     }
  
-    moveLeft() {
-        this.x -= this.speed;           
+    // Plays an animation once.
+    async animateOnce(images, result) {
+        for (const image of images) {
+            await new Promise(resolve => setTimeout(() => {
+                let path = image;
+                this.img = this.imageCache[path];
+                resolve();
+            }, 150));
+        }
+        
     }
 
-    jump() {
-        this.speedY = 30;                     //Jumping speed
+   // Jumping speed
+   jump() {
+        this.speedY = 10;                     
+        }
+
+   // bounce up into the air
+   bounceUp() {                            
+        this.speedY = 9;
     }
+
+
 }
