@@ -3,12 +3,7 @@
 //and collision offset, rendered using a coin image.
 
 class Coin extends DrawableObject {
-    offset = {
-        top: 30,
-        right: 30,
-        bottom: 40,
-        left: 40
-    };
+    offset = { top: 30, right: 30, bottom: 40, left: 40 };
 
     IMAGES_COIN = [
         'img/8_coin/coin_1.png',
