@@ -5,7 +5,8 @@ class World {
     ctx;
     keyboard;
     camera_x = 0;
-    statusBar = new StatusBar();
+    statusBar = new StatusBar(); 
+    bottleBar = new BottleBar();
     throwableObjects = [];
 
     constructor(canvas, keyboard) {
@@ -14,90 +15,148 @@ class World {
           this.keyboard = keyboard;
           this.draw();
           this.setWorld();
-          this.checkCollisions();
-          this.run();
+          this.startIntervals();
     }
-
+    // Links the current world instance to the character
     setWorld() {
         this.character.world = this;
     }
+    
 
-    run() {
+    // Starts timed checks for collisions and interactions
+    startIntervals() {
         setInterval(() => {
-            this.checkCollisions();
-            this.checkThrowObjects();
-        }, 200);
+            if (!gamePaused) {
+                this.checkCollisions();
+              
+            }
+        }, 60);
     }
 
-    checkThrowObjects() {
-        if (this.keyboard.D) {
-            let bottle = new ThrowableObject(this.character.x + 100, this.character.y + 100);
-            this.throwableObjects.push(bottle);
+    
+    // Runs all collision checks: enemies, endboss
+    checkCollisions() {
+        this.checkEnemyCollision();
+        this.checkEndbossCollision();
 
+    }
+
+    
+    // Handles collisions between character and enemies (or enemy elimination)
+    checkEnemyCollision() {
+        this.level.enemies.forEach((enemy) => {
+            if (this.isCharacterDamageable(enemy)) {
+                if (this.character.isAlive()) {
+                    this.character.hit();
+                    this.statusBar.setPercentage(this.character.energy);
+                }
+            } else if (this.isChickenDamageable(enemy)) {
+                this.collidedFromTop(enemy);
+            } else if (!enemy.energy) {
+                this.destroyChicken(enemy);
+            }
+        })
+    }
+
+    
+    // Returns true if character is colliding with a living enemy on the ground
+    isCharacterDamageable(enemy) {
+        return !this.character.isAboveGround() && this.character.isColliding(enemy) && enemy.energy;
+    }
+
+   // Returns true if character is landing on a living enemy from above 
+    isChickenDamageable(enemy) {
+        return this.character.isAboveGround && this.character.speedY <= 2 && this.character.isColliding(enemy) && enemy.energy;
+    }
+
+    
+    // Called when character jumps on enemy from above, killing it
+    collidedFromTop(enemy) {
+        enemy.eliminateEnemy();
+        this.character.bounceUp();
+    }
+    
+    
+    // Removes a loseScreened enemy from the level if it can be removed
+    destroyChicken(enemy) {
+        if (enemy.canBeRemoved) {
+            let enemyIndex = this.level.enemies.indexOf(enemy);
+            this.level.enemies.splice(enemyIndex, 1);
         }
     }
 
+    // Damages the character if colliding with a living endboss
+    checkEndbossCollision() {
+        if (this.character.isColliding(this.level.endboss) && this.level.endboss.isAlive()) {
+            if (this.character.isAlive()) {
+                this.hitCharacter();
+            }
+        }
+    }
+    
 
-
-    checkCollisions() {
-        this.level.enemies.forEach((enemy) => {
-                if (this.character.isColliding(enemy)) {                   
-                   this.character.hit();
-                   this.statusBar.setPercentage(this.character.energy);
-                }   
-            });
+    // Reduces character energy and updates status bar
+    hitCharacter() {
+        this.character.hit();
+        this.statusBar.setPercentage(this.character.energy);
     }
 
+    
+    // 
+    hitEndBoss() {
+        this.level.endboss.hitEndboss();
+    }
 
-
-    draw(){
-
+    
+    // Draws all game elements and UI components to the canvas
+    draw() {
         this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
 
-        this.ctx.translate(this.camera_x, 0);      //shift the viewport 100px to the left
-        this.addObjectsToMap(this.level.backgroundObjects);
-
-        this.ctx.translate(-this.camera_x, 0);
-        //-------------- space for fixed objects ---------------
-        this.addToMap(this.statusBar);
         this.ctx.translate(this.camera_x, 0);
-
-        this.addToMap(this.character);
+        this.addObjectsToMap(this.level.backgroundObjects);
         this.addObjectsToMap(this.level.clouds);
+        this.ctx.translate(-this.camera_x, 0);
+        // -------- space for fixed objects --------
+        this.addToMap(this.statusBar);
+        this.addToMap(this.bottleBar);
+        // ------- space for Movable objects -------
+        this.ctx.translate(this.camera_x, 0);
+        this.addToMap(this.character);
         this.addObjectsToMap(this.level.enemies);
+        this.addToMap(this.level.endboss);
+        this.addObjectsToMap(this.level.bottles);
         this.addObjectsToMap(this.throwableObjects);
-        
-        this.ctx.translate(-this.camera_x, 0);    //then shift the viewport back to the right
+        this.ctx.translate(-this.camera_x, 0);
 
-        
         let self = this;
-        requestAnimationFrame(function() {
+        requestAnimationFrame(() => {
             self.draw();
-        });
+        })
+    }
+
     
-    }
-
+    // Adds all objects in the array to the canvas
     addObjectsToMap(objects) {
-        objects.forEach(o => {
-            this.addToMap(o);
+        objects.forEach(object => {
+            this.addToMap(object)
         });
     }
 
+    
+    // Adds a single object to the canvas, flipping it if it's facing left
     addToMap(mo) {
-        if(mo.otherDirection) {
+        if (mo.otherDirection) {
             this.flipImage(mo);
         }
-        mo.draw(this.ctx);
-        mo.drawFrame(this.ctx);
-        
+
+        mo.drawObject(this.ctx);
 
         if (mo.otherDirection) {
             this.flipImageBack(mo);
         }
-
-
     }
 
+    // Flips the object image for left-facing direction
     flipImage(mo) {
         this.ctx.save();
         this.ctx.translate(mo.width, 0);
@@ -105,9 +164,21 @@ class World {
         mo.x = mo.x * -1;
     }
 
-    flipImageBack(mo){
+    
+    // Restores the image orientation after flipping
+    flipImageBack(mo) {
         mo.x = mo.x * -1;
         this.ctx.restore();
-
     }
+
+
+     // Returns true if the endboss is within 500px range of the character
+    isEndbossInRange() {
+        return this.level.endboss.x - (this.character.x + this.character.width) < 500;
+    }
+
+ 
+    
+
+
 }
