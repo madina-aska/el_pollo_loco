@@ -3,10 +3,9 @@ class Endboss extends MovableObject {
     width = 275;
     height = 400;
     speedX = 0.5;
-    offset = { top: 50, right: 10, bottom: 5, left: 20 };
-
     hasTriggeredFirstAttack = false;
-
+    offset = { top: 50, right: 10, bottom: 5, left: 20 };
+    
     IMAGES_WALKING = [
         './img/4_enemie_boss_chicken/1_walk/G1.png',
         './img/4_enemie_boss_chicken/1_walk/G2.png',
@@ -84,6 +83,7 @@ class Endboss extends MovableObject {
             if (this.isFirstHit()) this.animateAlert();
             if (this.isSecondHit()) this.animateAttack();
             if (this.isHurt()) this.playAnimation(this.IMAGES_HURT);
+            if (this.isDead()) this.animateDeath();
         }
     }
 
@@ -92,23 +92,31 @@ class Endboss extends MovableObject {
         return this.energy == 80;
     }
 
+
+    // Checks second hit condition
+    isSecondHit() {
+        return this.energy <= 60;
+    }
+
+    
     // Show alert animation
     animateAlert() {
         this.hasTriggeredFirstAttack = true;
         this.playAnimation(this.IMAGES_ALERT);
     }
     
-    // Checks second hit condition
-    isSecondHit() {
-        return this.energy <= 60;
-    }
-
+    
     // Show attacking animation
     animateAttack() {
         this.hasTriggeredFirstAttack = false;
         this.playAnimation(this.IMAGES_ATTACKING);
     }
 
+    // Stop animations and play death animation
+    animateDeath() {
+        this.clearIntervals();
+        this.animateOnce(this.IMAGES_DEAD, 'winScreen');
+    }
 
     //  Move or attack based on position and health
     moveEndboss() {
@@ -168,4 +176,10 @@ class Endboss extends MovableObject {
     }
 
 
+    // Clear all animation intervals
+    clearIntervals() {
+        for (const interval of this.animationIntervals ) {
+            clearInterval(interval);
+        }
+    }
 }
