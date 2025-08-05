@@ -6,6 +6,7 @@ class World {
     keyboard;
     camera_x = 0;
     statusBar = new StatusBar(); 
+    coinBar = new CoinBar();
     bottleBar = new BottleBar();
     throwableObjects = [];
 
@@ -13,6 +14,7 @@ class World {
           this.ctx = canvas.getContext('2d');
           this.canvas = canvas;
           this.keyboard = keyboard;
+          this.totalCoins = this.level.coins.length;
           this.draw();
           this.setWorld();
           this.startIntervals();
@@ -34,11 +36,11 @@ class World {
     }
 
     
-    // Runs all collision checks: enemies, endboss
+    // Runs all collision checks: enemies, endboss, and coins
     checkCollisions() {
         this.checkEnemyCollision();
         this.checkEndbossCollision();
-
+        this.checkCoinCollection();
     }
 
     
@@ -107,6 +109,22 @@ class World {
         this.level.endboss.hitEndboss();
     }
 
+    //Checks for collisions between the character and coins, and removes collected coins.
+   checkCoinCollection() {
+        this.level.coins.forEach((coin) => {
+           if (this.character.isColliding(coin)) {
+            this.removeCoin(coin);
+            }
+        });
+    }
+
+
+    //Removes the given coin from the level's coin array.
+    removeCoin(coin) {
+        let coinIndex = this.level.coins.indexOf(coin);
+        this.level.coins.splice(coinIndex, 1);
+    }
+
     
     // Draws all game elements and UI components to the canvas
     draw() {
@@ -118,12 +136,15 @@ class World {
         this.ctx.translate(-this.camera_x, 0);
         // -------- space for fixed objects --------
         this.addToMap(this.statusBar);
+        this.addToMap(this.coinBar);
+        this.coinBar.setPercentage(this.calculateCoinPercentage());
         this.addToMap(this.bottleBar);
         // ------- space for Movable objects -------
         this.ctx.translate(this.camera_x, 0);
         this.addToMap(this.character);
         this.addObjectsToMap(this.level.enemies);
         this.addToMap(this.level.endboss);
+        this.addObjectsToMap(this.level.coins);
         this.addObjectsToMap(this.level.bottles);
         this.addObjectsToMap(this.throwableObjects);
         this.ctx.translate(-this.camera_x, 0);
@@ -178,7 +199,11 @@ class World {
     }
 
  
-    
+    //Calculates the percentage of coins collected out of the total number of coins in the level.
+    calculateCoinPercentage() {
+        const collected = this.totalCoins - this.level.coins.length;
+        return (collected / this.totalCoins) * 100;
+    }
 
 
 }
