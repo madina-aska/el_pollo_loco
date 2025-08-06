@@ -1,6 +1,6 @@
 @font-face {
     font-family: 'Zabars';
-    src: url('../fonts/zabars.ttf') format('truetype'); 
+    src: url('fonts/zabars.ttf') format('truetype'); 
 }  
 
 html {
@@ -215,7 +215,37 @@ body {
     object-fit: cover;
 }
 
-
 .d-flex {
     display: flex;
 }
+
+/* ------------------ Impressum ------------------ */
+
+#canvas-container {
+  position: relative; /* Needed for absolute positioning inside */
+}
+
+ .impressum-link {
+  position: absolute; 
+  bottom: 10px;      
+  left: 20px;      
+  background-color: white;
+  color: rgb(254, 184, 8);
+  padding: 10px 15px;
+  border-radius: 0.5rem;
+  text-decoration: none;
+  font-size: 14px;
+  z-index: 10;        
+  width: auto;
+  max-width: 120px;
+  letter-spacing: 4px;
+  box-shadow: 0 0 2px rgba(0, 0, 0, 0.35);
+  -webkit-text-stroke: 0.1px rgba(0, 0, 0, 0.4);
+}
+
+.impressum-link:hover {
+    transform: scale(1.05);
+}
+
+
+
