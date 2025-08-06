@@ -20,17 +20,72 @@
     <script src="./js/models/world.class.js"></script>
     <script src="./js/models/background-object.class.js"></script>
     <script src="./js/models/keyboard.class.js"></script>
+    <script src="./js/models/coin.class.js"></script>
+    <script src="./js/models/bottle-one.class.js"></script>
+    <script src="./js/models/bottle-two.class.js"></script>
     <script src="./js/models/level.class.js"></script>
     <script src="./js/models/throwable-object.class.js"></script>
     <script src="./js/models/endboss.class.js"></script>
-    <script src="./js/models/throwable-bottle.class.js"></script>    
+     <script src="js/models/templates.js"></script>
     <script src="./js/models/levels/level1.js"></script>
     <script src="js/game.js"></script>
 </head>
-<body onload="init()">
-    
-    <h1>El Pollo Loco</h1>
 
-    <canvas id="canvas" width="720" height="480"></canvas>
+
+
+<body>
+<!-- Main content wrapper -->
+<div class="content">
+        <h1 class="title">El Pollo Loco</h1>
+        
+        <!-- Container for all game-related elements -->
+        <div id="game-wrapper" class="game-wrapper">
+            
+            <!-- Start screen with start button -->
+            <div id="start-screen" class="start-screen">
+                <img class="start-screen-img" src="img/9_intro_outro_screens/start/startscreen_1.png">
+              
+                    <div class="play-button-container">
+                        <button onclick="startGame()" class="main-button"> ▶ Play</button>
+                    </div>
+            </div>       
+
+             <!-- Game canvas and UI (initially hidden) -->    
+            <div id="canvas-container" class="canvas-container d-none">
+
+                <!-- Game canvas where rendering happens -->
+                <canvas class="canvas" id="canvas" width="720" height="480"></canvas> 
+
+                <!-- Mobile control buttons (left, right, jump, throw) -->
+                <div id="icons-mobile" class="icons-mobile">
+                    <div class="arrow-icons">
+                        <div id="btn-left" class="icon-container">
+                            <img class="icon" src="./img/Icons/left.png" >
+                              <span>: Left</span>
+                        </div>
+                        <div id="btn-right" class="icon-container">
+                            <img class="icon" src="./img/Icons/right.png">
+                              <span>: Right</span>
+                        </div>
+                        <div id="btn-jump" class="icon-container">
+                            <img class="icon" src="./img/Icons/up.png">
+                              <span>: Jump</span>
+                        </div>
+                        <div id="btn-throw" class="icon-container" >
+                            <span> D:Throw</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- End screen shown when the game ends -->
+            <div id="end-screen" class="end-screen d-none"></div>
+        </div>
+
+        <!-- Rotate device info for mobile users -->
+        <div class="rotate-message">
+            <img class="rotate-device" src="./img/Icons/rotate.webp">
+        </div>
+    </div>
 </body>
 </html>

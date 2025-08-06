@@ -93,7 +93,7 @@ class MovableObject extends DrawableObject {
     }
  
     // Plays an animation once, then ends the game.
-    async animateOnce(images, result) {
+    async animateOnce(images, status) {
         for (const image of images) {
             await new Promise(resolve => setTimeout(() => {
                 let path = image;
@@ -102,7 +102,7 @@ class MovableObject extends DrawableObject {
             }, 150));
         }
         clearAllIntervals();
-        displayGameOverScreen(result);
+        displayGameOverScreen(status);
     }
 
 
