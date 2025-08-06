@@ -79,23 +79,25 @@ class Endboss extends MovableObject {
 
     // Play animations based on health and state
     playAnimations() {
-        if (!gamePaused && gameStarted) {
-            if (this.isFirstHit()) this.animateAlert();
-            if (this.isSecondHit()) this.animateAttack();
-            if (this.isHurt()) this.playAnimation(this.IMAGES_HURT);
-            if (this.isDead()) this.animateDeath();
+    if (!gamePaused && gameStarted) {
+        if (this.isFirstHit()) {
+            this.animateAlert();
+        }
+        if (this.isSecondHit()) {
+            this.animateAttack();
+        }
+        if (this.isHurt()) {
+            this.playAnimation(this.IMAGES_HURT);
+        }
+        if (this.isDead()) {
+            this.animateDeath();
         }
     }
+}
 
     // Checks first hit condition
     isFirstHit() {
         return this.energy == 80;
-    }
-
-
-    // Checks second hit condition
-    isSecondHit() {
-        return this.energy <= 60;
     }
 
     
@@ -103,6 +105,12 @@ class Endboss extends MovableObject {
     animateAlert() {
         this.hasTriggeredFirstAttack = true;
         this.playAnimation(this.IMAGES_ALERT);
+    }
+
+
+    // Checks second hit condition
+    isSecondHit() {
+        return this.energy <= 60;
     }
     
     
@@ -120,18 +128,26 @@ class Endboss extends MovableObject {
 
     //  Move or attack based on position and health
     moveEndboss() {
-        if (!gamePaused && gameStarted && !this.hasTriggeredFirstAttack) {
-        if (this.isRightSideFullHealth()) this.moveLeft();
-        if (this.isRightSideDamaged()) this.moveLeftAngry();
-        if (this.isLeftSideFullHealth()) this.moveRight();
-        if (this.isLeftSideDamaged()) this.moveRightAngry();
+    if (!gamePaused && gameStarted && !this.hasTriggeredFirstAttack) {
+        if (this.isRightSideFullHealth()) {
+            this.moveLeft();
+        }
+        if (this.isRightSideDamaged()) {
+            this.attackLeft();
+        }
+        if (this.isLeftSideFullHealth()) {
+            this.moveRight();
+        }
+        if (this.isLeftSideDamaged()) {
+            this.attackRight();
+        }
     }
 }
 
     // Position and health checks
 
     isRightSideFullHealth() {
-            return this.energy === 100 && this.x + this.offset.left > world.character.x + world.character.offset.left;
+            return this.energy == 100 && this.x + this.offset.left > world.character.x + world.character.offset.left;
     }
 
     isRightSideDamaged() {
@@ -139,7 +155,7 @@ class Endboss extends MovableObject {
     }
 
     isLeftSideFullHealth() {
-            return this.energy === 100 && this.x + this.width < world.character.x + world.character.width - world.character.offset.left;
+            return this.energy == 100 && this.x + this.width < world.character.x + world.character.width - world.character.offset.left;
     }
 
     isLeftSideDamaged() {
