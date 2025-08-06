@@ -6,6 +6,7 @@ class BottleTwo extends DrawableObject {
     y = 350;
     width = 65;
     height = 80;
+    offset = { top: 10, right: 10, bottom: 5, left: 15 };
 
     IMAGES_BOTTLE = [
         'img/6_salsa_bottle/2_salsa_bottle_on_ground.png'
@@ -13,7 +14,7 @@ class BottleTwo extends DrawableObject {
 
     constructor() {
         super().loadImage(this.IMAGES_BOTTLE[0]);
-        this.x = 300 + Math.random() * 1500;
+        this.x = 300 + Math.random() * 2100;
       
     }
 }

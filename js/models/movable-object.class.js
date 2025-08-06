@@ -1,4 +1,4 @@
-class MovableObject extends DrawableObject { 
+class MovableObject extends DrawableObject {
     speedX = 0.1;
     attackSpeedX = 3;
     otherDirection = false;
@@ -92,7 +92,7 @@ class MovableObject extends DrawableObject {
         this.x += this.attackSpeedX
     }
  
-    // Plays an animation once.
+    // Plays an animation once, then ends the game.
     async animateOnce(images, result) {
         for (const image of images) {
             await new Promise(resolve => setTimeout(() => {
@@ -101,8 +101,9 @@ class MovableObject extends DrawableObject {
                 resolve();
             }, 150));
         }
-        
+       
     }
+
 
    // Jumping speed
    jump() {
