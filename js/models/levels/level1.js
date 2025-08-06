@@ -5,7 +5,7 @@
 
 let level1;
 
-    function initLevel() {
+    function setupLevel() {
         
     level1 = new Level(
         [
