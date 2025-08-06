@@ -247,5 +247,137 @@ body {
     transform: scale(1.05);
 }
 
+/* -------------------Responsive --------------------- */
+
+@media only screen and (max-width: 991.98px) {
+   
+    .icons-mobile {
+        display: flex;
+       
+    }
+
+    .icon-container:hover {
+        background-color: unset;
+    }
+
+    .icon-container:active {
+        background-color: #FFC100;
+    }
+}
+
+@media only screen and (max-width: 720px) {
+    .content {
+        justify-content: center;
+    }
+
+    .title {
+        padding-top: 0;
+    }
+
+    .game-wrapper {
+        width: 100%;
+    }
+
+    .canvas {
+        width: 100%;
+    }
+
+    .end-screen {
+        width: 100%;
+    }
+
+    .main-button {
+        font-size: 1.75rem;
+    }
+
+}
+
+@media only screen and (max-width: 575.98px) {
+    .rotate-message {
+        display: flex;
+    }
+
+    .play-button-container {
+        left: 2rem;
+        right: 2rem;
+        gap: 1rem;
+    }
 
 
+    .impressum-link {
+        display: none;
+    }
+
+
+    
+    
+}
+
+@media only screen and (max-height: 480px) {
+    .title {
+        display: none;
+    }
+
+    body {
+        height: 100vh;
+    }
+
+    .canvas-container {
+        height: 100vh;
+    }
+
+    .canvas {
+        height: 100vh;
+    }
+
+    .start-screen-img {
+        height: 100vh;
+    }
+
+    .end-screen {
+        height: 100vh;
+    }
+
+    .loseScreen-img,
+    .winScreen-img {
+        height: 100vh;
+    }
+
+    .icons-center {
+        gap: 0.5rem;
+    }
+
+    .icons-mobile {
+        display: flex;
+    }
+
+    .icon-container:hover {
+        background-color: unset;
+    }
+
+    .icon-container:active {
+        background-color: #FFC100;
+    }
+
+    .rotate-message {
+        display: none;
+    }
+
+    .play-button-container {
+        justify-content: center;
+    }
+
+    .icon-container {
+        padding: 0.6rem;
+    }
+
+
+@media (max-width: 600px) {
+    
+  .impressum-link {
+    font-size: 1rem;
+    display: block;
+    margin: 1rem auto;
+  }
+}
+}
