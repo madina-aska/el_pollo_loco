@@ -21,5 +21,4 @@ class Coin extends DrawableObject {
     }
 
 
-
 }

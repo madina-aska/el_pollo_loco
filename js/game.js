@@ -4,6 +4,22 @@ let keyboard = new Keyboard();
 let gamePaused = false;
 let gameStarted = false;
 
+let sounds = {
+    background_sound: new Audio('audio/background.mp3'),
+    win_sound: new Audio('audio/win.mp3'),
+    lose_sound: new Audio('audio/lose.mp3'),
+    walking_sound: new Audio('audio/running.mp3'),
+    jumping_sound: new Audio('audio/jumping.mp3'),
+    hurt_sound: new Audio('audio/hurt.mp3'),
+    dying_sound: new Audio('audio/dying.mp3'),
+    bounce_sound: new Audio('audio/boing.mp3'),
+    coin_collecting: new Audio('audio/coin.mp3'),
+    bottle_collecting: new Audio('audio/collect-bottle.mp3'),
+    bottle_throwing: new Audio('audio/throw.mp3'),
+    bottle_breaking: new Audio('audio/breaking-glass.mp3'),
+    chicken_cluking: new Audio('audio/chicken-cluking.mp3')
+};
+
 //sets up keyboard and touch input controls to handle player movement, jumping, and throwing when the game loads.
 window.onload = function () {
 setupLevel();
@@ -66,7 +82,7 @@ function startGame() {
     startScreen.classList.add('d-none');
     canvas.classList.remove('d-none');
     initGame();
-   setupLevel();
+    setupLevel();
     
 }
 
@@ -78,6 +94,7 @@ function restartGame(status) {
     }
     gameStarted = false;
     clearAllIntervals();
+    pauseAllAudio();
     setupLevel();
     initGame();
 }
@@ -88,8 +105,20 @@ function initGame() {
     gamePaused = false;
     canvas = document.getElementById('canvas');
     world = new World(canvas, keyboard);
+    sounds.background_sound.volume = 0.1;
+    sounds.background_sound.loop = true;
+    sounds.background_sound.play();
 
 }
+
+function pauseAllAudio() {
+    for (let audio in sounds) {
+        if (audio != 'background_sound' && audio != 'win_sound' && audio != 'lose_sound') {
+            sounds[audio].pause();
+        }
+    }
+}
+
 
 function clearAllIntervals() {
     for (let i = 0; i < 1000; i++) {

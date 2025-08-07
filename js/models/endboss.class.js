@@ -124,6 +124,9 @@ class Endboss extends MovableObject {
     animateDeath() {
         this.clearIntervals();
         this.animateOnce(this.IMAGES_DEAD, 'winScreen');
+        sounds.win_sound.volume = 0.6;
+        sounds.background_sound.pause();
+        sounds.win_sound.play();
     }
 
     //  Move or attack based on position and health
@@ -172,6 +175,8 @@ class Endboss extends MovableObject {
     attackLeft() {
         this.otherDirection = false;
         super.attackLeft();
+        sounds.chicken_cluking.volume = 0.4;
+        sounds.chicken_cluking.play();
     }
 
     moveRight() {
@@ -182,6 +187,8 @@ class Endboss extends MovableObject {
     attackRight() {
         this.otherDirection = true;
         super.attackRight();
+        sounds.chicken_cluking.volume = 0.4;
+        sounds.chicken_cluking.play();
     }
 
 

@@ -101,6 +101,7 @@ class MovableObject extends DrawableObject {
                 resolve();
             }, 150));
         }
+        pauseAllAudio();
         clearAllIntervals();
         displayGameOverScreen(status);
     }
@@ -114,7 +115,10 @@ class MovableObject extends DrawableObject {
    // bounce up into the air
    bounceUp() {                            
         this.speedY = 9;
-    }
+        sounds.bounce_sound.currentTime = 0;
+        sounds.bounce_sound.volume = 0.15;
+        sounds.bounce_sound.play();
 
+    }
 
 }

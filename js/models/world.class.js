@@ -176,6 +176,9 @@ class World {
     //Removes the given coin from the level's coin array.
     removeCoin(coin) {
         let coinIndex = this.level.coins.indexOf(coin);
+        sounds.coin_collecting.volume = 0.3;
+        sounds.coin_collecting.currentTime = 0;
+        sounds.coin_collecting.play();
         this.level.coins.splice(coinIndex, 1);
     }
 
@@ -193,6 +196,8 @@ class World {
 
     removeBottle(bottle) {
         let bottleIndex = this.level.bottles.indexOf(bottle);
+        sounds.bottle_collecting.currentTime = 0;
+        sounds.bottle_collecting.play();
         this.level.bottles.splice(bottleIndex, 1);
     }
 

@@ -41,6 +41,7 @@ class ThrowableObject extends MovableObject {
         
         if (!this.otherDirection) {
             let throwToRight = setInterval(() => this.throwBottleRight(), 40);
+            this.playBottleThrowSound();
             this.animationIntervals.push(throwToRight);
         } else {
             this.x -= 80;
@@ -69,6 +70,7 @@ class ThrowableObject extends MovableObject {
     splashAnimation() {
         this.clearThrowIntervals();
         this.energy = 0;
+        this.playBottleBreakSound();
         this.speedY = 0;
         this.speedX = 0;
 
@@ -89,6 +91,20 @@ class ThrowableObject extends MovableObject {
 
     bottleHitGround() {
         return this.y > 500;
+    }
+
+
+    playBottleThrowSound() {
+        sounds.bottle_throwing.volume = 0.7;
+        sounds.bottle_throwing.currentTime = 0;
+        sounds.bottle_throwing.play();
+    }
+
+
+    playBottleBreakSound() {
+        sounds.bottle_breaking.currentTime = 0;
+        sounds.bottle_breaking.volume = 0.8;
+        sounds.bottle_breaking.play();
     }
 
 

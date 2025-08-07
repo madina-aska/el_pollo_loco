@@ -95,6 +95,7 @@ class Character extends MovableObject {
                 if (this.MovingLeftKeyPressed())
                     this.moveLeft();
                 if (this.NoMovementKeyPressed())
+                    sounds.walking_sound.pause();
                 if (this.JumpKeyPressed())
                     this.jump();
                 this.world.camera_x = -this.x + 100;
@@ -132,6 +133,7 @@ class Character extends MovableObject {
         super.moveRight();
         this.otherDirection = false;
         if (!this.isAboveGround()) {
+            sounds.walking_sound.play();
         }
     }
 
@@ -141,6 +143,7 @@ class Character extends MovableObject {
         super.moveLeft();
         this.otherDirection = true;
         if (!this.isAboveGround()) {
+            sounds.walking_sound.play();
         }
     }
 
@@ -148,6 +151,8 @@ class Character extends MovableObject {
     // Make character jump
     jump() {
         super.jump();
+        sounds.walking_sound.pause();
+        sounds.jumping_sound.play();
     }
 
     // Switch animations based on state
@@ -176,12 +181,18 @@ class Character extends MovableObject {
     hurtAnimation() {
         this.playAnimation(this.IMAGES_HURT);
         this.idleDuration = 0;
+        sounds.hurt_sound.play();
     }
     
     // Play death animation and stop character
     animateDeath() {
         this.animateOnce(this.IMAGES_DEAD, 'loseScreen');
         this.clearCharacterIntervals();
+        sounds.walking_sound.pause();
+        sounds.dying_sound.currentTime = 0;
+        sounds.dying_sound.play();
+        sounds.lose_sound.volume = 0.5;
+        sounds.lose_sound.play();
     }
 
     
