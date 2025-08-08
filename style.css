@@ -187,7 +187,8 @@ body {
     right: 2rem;
     display: flex;
     justify-content: right;
-    z-index: 0;
+    z-index: 100;
+    pointer-events: none; 
    
 }
 
@@ -229,18 +230,14 @@ body {
   position: absolute; 
   bottom: 10px;      
   left: 20px;      
-  background-color: white;
-  color: rgb(254, 184, 8);
+  color: white;
   padding: 10px 15px;
-  border-radius: 0.5rem;
   text-decoration: none;
-  font-size: 14px;
+  font-size: 25px;
   z-index: 10;        
   width: auto;
   max-width: 120px;
   letter-spacing: 4px;
-  box-shadow: 0 0 2px rgba(0, 0, 0, 0.35);
-  -webkit-text-stroke: 0.1px rgba(0, 0, 0, 0.4);
 }
 
 .impressum-link:hover {
@@ -253,7 +250,7 @@ body {
    
     .icons-mobile {
         display: flex;
-       
+        pointer-events: auto;
     }
 
     .icon-container:hover {
@@ -304,13 +301,14 @@ body {
     }
 
 
-    .impressum-link {
-        display: none;
+    .icons-mobile {
+        display: none !important;
     }
 
 
-    
-    
+    .impressum-link {
+        display: none;
+    }    
 }
 
 @media only screen and (max-height: 480px) {
@@ -371,6 +369,54 @@ body {
         padding: 0.6rem;
     }
 
+    /* Left icon */
+    #btn-left img.icon {
+        content: url('./img/Icons/mobile-left.png'); 
+    }
+
+    /* Right icon */
+    #btn-right img.icon {
+        content: url('./img/Icons/mobile-right.png'); 
+    }
+
+    /* Jump icon */
+    #btn-jump img.icon {
+        content: url('./img/Icons/mobile-up.png'); 
+    }
+
+   
+    #btn-throw {
+        content: url('./img/Icons/mobile-throw.png');
+        width: 3rem;
+        height: 3rem;
+        background-color: white;
+        border: 2px solid #936e6e;
+        border-radius: 50%;  
+    }
+
+    /* Hide text inside btn-throw */
+    #btn-throw span {
+        display: none;
+    }
+   #btn-left span {
+        display: none;
+    }
+    #btn-right span {
+        display: none;
+    }
+    #btn-jump span {
+        display: none;
+    }
+
+    #icons-mobile .icon {
+    filter: none !important;
+    background-color: transparent !important;
+    opacity: 1 !important;
+    width: 60px;
+    height: 60px;
+  
+}
+
 
 @media (max-width: 600px) {
     
@@ -380,4 +426,6 @@ body {
     margin: 1rem auto;
   }
 }
+
+
 }

@@ -18,6 +18,7 @@ class World {
           this.canvas = canvas;
           this.keyboard = keyboard;
           this.totalCoins = this.level.coins.length;
+          this.maxBottles = this.level.bottles.length;
           this.draw();
           this.setWorld();
           this.startIntervals();
@@ -275,8 +276,7 @@ class World {
 
 
     updateBottleBar() {
-        let maxBottles = this.totalBottel || 1; 
-        let percentage = (this.bottleCount / maxBottles) * 100;
+        let percentage = Math.min((this.bottleCount / this.maxBottles) * 100, 100);
         this.bottleBar.setPercentage(percentage);
     }
 

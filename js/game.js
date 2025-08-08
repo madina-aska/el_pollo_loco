@@ -92,6 +92,12 @@ function restartGame(status) {
         document.getElementById('end-screen').classList.add('d-none');
         document.getElementById(`${status}`).remove();
     }
+
+    const mobileIcons = document.getElementById('icons-mobile');
+    if (mobileIcons) {
+        mobileIcons.style.display = 'flex'; 
+    }
+    
     gameStarted = false;
     clearAllIntervals();
     pauseAllAudio();
@@ -130,11 +136,17 @@ function clearAllIntervals() {
 async function displayGameOverScreen(status) {
     const endScreen = document.getElementById('end-screen');
     const statusContainer = document.getElementById(status);
+    const mobileIcons = document.getElementById('icons-mobile');
     endScreen.classList.remove('d-none');
+
     if (!statusContainer) {
         const html = status === 'winScreen' ? winScreen() : loseScreen();
         endScreen.innerHTML += html;
         animateEndScreen(status);
+    }
+
+       if (mobileIcons) {
+        mobileIcons.style.display = 'none'; 
     }
 }
 
