@@ -66,7 +66,9 @@ class Character extends MovableObject {
     "img/2_character_pepe/1_idle/long_idle/I-20.png",
   ];
 
-  // Initializes the character, loads images, starts animations, and applies gravity.
+  /**
+   * Character class that handles movement, animation, and interaction with the world.
+   */
   constructor() {
     super().loadImage("./img/2_character_pepe/1_idle/idle/I-1.png");
     this.loadImages(this.IMAGES_IDLE);
@@ -79,13 +81,17 @@ class Character extends MovableObject {
     this.applyGravity();
   }
 
-  // Starts the character’s movement and animation intervals.
+  /**
+   * Starts the character’s movement and animation intervals.
+   */
   animate() {
     this.moveInterval();
     this.animateInterval();
   }
 
-  // Handles movement input (left, right, jump) and updates camera position.
+  /**
+   * Handles movement input (left, right, jump) and updates camera position.
+   */
   moveInterval() {
     let movingInterval = setInterval(() => {
       if (!gamePaused) {
@@ -99,27 +105,41 @@ class Character extends MovableObject {
     this.animationIntervals.push(movingInterval);
   }
 
-  // Check if right key pressed and inside bounds
+  /**
+   * Checks if right key is pressed and character is within bounds.
+   * @returns {boolean}
+   */
   MovingRightKeyPressed() {
     return this.world.keyboard.RIGHT && this.x < this.world.level.level_end_x;
   }
 
-  // Check if left key pressed and inside bounds
+  /**
+   * Checks if left key is pressed and character is within bounds.
+   * @returns {boolean}
+   */
   MovingLeftKeyPressed() {
     return this.world.keyboard.LEFT && this.x > -600;
   }
 
-  // Check if jump key pressed and on ground
+  /**
+   * Checks if jump key is pressed and character is on the ground.
+   * @returns {boolean}
+   */
   JumpKeyPressed() {
     return this.world.keyboard.SPACE && !this.isAboveGround();
   }
 
-  // Check if no horizontal keys pressed
+  /**
+   * Checks if no horizontal movement key is pressed.
+   * @returns {boolean}
+   */
   NoMovementKeyPressed() {
     return !this.world.keyboard.RIGHT && !this.world.keyboard.LEFT;
   }
 
-  // Move character right and face right
+  /**
+   * Moves character right and updates direction.
+   */
   moveRight() {
     super.moveRight();
     this.otherDirection = false;
@@ -128,7 +148,9 @@ class Character extends MovableObject {
     }
   }
 
-  // Move character left and face left
+  /**
+   * Moves character left and updates direction.
+   */
   moveLeft() {
     super.moveLeft();
     this.otherDirection = true;
@@ -137,14 +159,18 @@ class Character extends MovableObject {
     }
   }
 
-  // Make character jump
+  /**
+   * Makes the character jump and plays jump sound.
+   */
   jump() {
     super.jump();
     sounds.walking_sound.pause();
     sounds.jumping_sound.play();
   }
 
-  // Switch animations based on state
+  /**
+   * Switches animations based on current character state.
+   */
   animateInterval() {
     let animationInterval = setInterval(() => {
       if (!gamePaused) {
@@ -165,14 +191,18 @@ class Character extends MovableObject {
     this.animationIntervals.push(animationInterval);
   }
 
-  // Play hurt animation
+  /**
+   * Plays the hurt animation and resets idle timer.
+   */
   hurtAnimation() {
     this.playAnimation(this.IMAGES_HURT);
     this.idleDuration = 0;
     sounds.hurt_sound.play();
   }
 
-  // Play death animation and stop character
+  /**
+   * Plays the death animation, stops character, and plays death-related sounds.
+   */
   animateDeath() {
     this.animateOnce(this.IMAGES_DEAD, "loseScreen");
     this.clearCharacterIntervals();
@@ -183,35 +213,49 @@ class Character extends MovableObject {
     sounds.lose_sound.play();
   }
 
-  // Play jump animation
+  /**
+   * Plays the jump animation and resets idle timer.
+   */
   jumpAnimation() {
     this.playAnimation(this.IMAGES_JUMPING);
     this.idleDuration = 0;
   }
 
-  // Check if any horizontal key pressed
+  /**
+   * Checks if any horizontal movement key is pressed.
+   * @returns {boolean}
+   */
   WalkingKeyPressed() {
     return this.world.keyboard.RIGHT || this.world.keyboard.LEFT;
   }
 
-  // Play walking animation
+  /**
+   * Plays the walking animation and resets idle timer.
+   */
   walkAnimation() {
     this.playAnimation(this.IMAGES_WALKING);
     this.idleDuration = 0;
   }
 
-  // Play idle animation and increase idle timer
+  /**
+   * Plays the idle animation and increases idle timer.
+   */
   idleAnimation() {
     this.idleDuration += 90;
     this.playAnimation(this.IMAGES_IDLE);
   }
 
-  // Check if idle too long for long idle animation
+  /**
+   * Checks if the character has been idle too long.
+   * @returns {boolean}
+   */
   idleTooLong() {
     return this.idleDuration > 3000 && !this.world.isThrowing;
   }
 
-  // Clear all animation intervals
+  /**
+   * Clears all animation-related intervals for the character.
+   */
   clearCharacterIntervals() {
     for (const interval of this.animationIntervals) {
       clearInterval(interval);

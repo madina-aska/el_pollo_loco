@@ -47,12 +47,12 @@ let level1;
             
         ],
         [
-            new Chicken(380), new Smallchickens(500),
-            new Chicken(630), new Smallchickens(700),
-            new Chicken(950), new Chicken(1140),
-            new Chicken(1300), new Smallchickens(1450),
-            new Chicken(1800), new Smallchickens(2000),
-            new Chicken(2200), new Chicken(2500)
+            new Chicken(780), new Smallchickens(900),
+            new Chicken(1030), new Smallchickens(1100),
+            new Chicken(1350), new Chicken(1540),
+            new Chicken(1700), new Smallchickens(1850),
+            new Chicken(2200), new Smallchickens(2400),
+            new Chicken(2600), new Chicken(2900)
         ],
         new Endboss(),
         [

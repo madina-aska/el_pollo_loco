@@ -3,6 +3,7 @@ let world;
 let keyboard = new Keyboard();
 let gamePaused = false;
 let gameStarted = false;
+let isSoundMuted = false;
 
 let sounds = {
   background_sound: new Audio("audio/background.mp3"),
@@ -20,11 +21,17 @@ let sounds = {
   chicken_cluking: new Audio("audio/chicken-cluking.mp3"),
 };
 
-//sets up keyboard and touch input controls to handle player movement, jumping, and throwing when the game loads.
+/**
+ * Initializes the game when the window is fully loaded.
+ * Sets up the level and key listeners.
+ */
 window.onload = function () {
   setupLevel();
 
-  // Key press
+  /**
+   * Handles keyboard key press events.
+   * Sets corresponding flags in the `keyboard` object.
+   */
   document.onkeydown = function (e) {
     let key = e.key;
     if (key == "ArrowRight") keyboard.RIGHT = true;
@@ -35,7 +42,10 @@ window.onload = function () {
     if (key == "d" || key == "D") keyboard.D = true;
   };
 
-  // Key release
+  /**
+   * Handles keyboard key release events.
+   * Resets corresponding flags in the `keyboard` object.
+   */
   document.onkeyup = function (e) {
     let key = e.key;
     if (key == "ArrowRight") keyboard.RIGHT = false;
@@ -45,8 +55,14 @@ window.onload = function () {
     if (key == " ") keyboard.SPACE = false;
     if (key == "d" || key == "D") keyboard.D = false;
   };
+
+  setupImpressumLoader();
 };
 
+/**
+ * Initializes mobile touch controls for movement and actions.
+ * Delayed slightly to ensure DOM elements are loaded.
+ */
 setTimeout(function () {
   let btnLeft = document.getElementById("btn-left");
   let btnRight = document.getElementById("btn-right");
@@ -98,6 +114,37 @@ setTimeout(function () {
   }
 }, 100);
 
+/**
+ * Loads and displays the Impressum modal using AJAX.
+ */
+function setupImpressumLoader() {
+  var link = document.getElementById("impressum-link");
+  var modal = document.getElementById("impressum-modal");
+  var content = document.getElementById("impressum-content-container");
+  var back = modal.querySelector("a.main-button");
+
+  link.onclick = function (event) {
+    event.preventDefault();
+
+    var request = new XMLHttpRequest();
+    request.open("GET", "impressum.html", true);
+    request.onload = function () {
+      content.innerHTML = request.responseText;
+      modal.classList.remove("d-none");
+    };
+    request.send();
+  };
+
+  back.onclick = function (event) {
+    event.preventDefault();
+    modal.classList.add("d-none");
+    content.innerHTML = "";
+  };
+}
+
+/**
+ * Starts the game by hiding the start screen and initializing game world.
+ */
 function startGame() {
   const startScreen = document.getElementById("start-screen");
   const canvas = document.getElementById("canvas-container");
@@ -107,6 +154,10 @@ function startGame() {
   setupLevel();
 }
 
+/**
+ * Restarts the game from a specific status (win or lose).
+ * @param {string} status - ID of the status screen to remove (e.g., "winScreen", "loseScreen").
+ */
 function restartGame(status) {
   if (status) {
     document.getElementById("end-screen").classList.add("d-none");
@@ -117,6 +168,7 @@ function restartGame(status) {
   if (mobileIcons) {
     mobileIcons.style.display = "flex";
   }
+
   gameStarted = false;
   clearAllIntervals();
   pauseAllAudio();
@@ -124,6 +176,16 @@ function restartGame(status) {
   initGame();
 }
 
+/**
+ * Navigates back to the home page.
+ */
+function goToHomePage() {
+  window.location.href = "index.html";
+}
+
+/**
+ * Initializes the game world and starts background music.
+ */
 function initGame() {
   gameStarted = true;
   gamePaused = false;
@@ -134,6 +196,9 @@ function initGame() {
   sounds.background_sound.play();
 }
 
+/**
+ * Pauses all sound effects except for background, win, and lose sounds.
+ */
 function pauseAllAudio() {
   for (let audio in sounds) {
     if (
@@ -146,18 +211,24 @@ function pauseAllAudio() {
   }
 }
 
+/**
+ * Clears all intervals in the game (used on restart).
+ */
 function clearAllIntervals() {
   for (let i = 0; i < 1000; i++) {
     window.clearInterval(i);
   }
 }
 
+/**
+ * Displays the end screen for win or lose status.
+ * @param {string} status - Either 'winScreen' or 'loseScreen'.
+ */
 async function displayGameOverScreen(status) {
   const endScreen = document.getElementById("end-screen");
   const statusContainer = document.getElementById(status);
   const mobileIcons = document.getElementById("icons-mobile");
   endScreen.classList.remove("d-none");
-
   if (!statusContainer) {
     const html = status === "winScreen" ? winScreen() : loseScreen();
     endScreen.innerHTML += html;
@@ -168,10 +239,13 @@ async function displayGameOverScreen(status) {
   }
 }
 
+/**
+ * Animates the end screen images and buttons after a delay.
+ * @param {string} status - 'winScreen' or 'loseScreen'.
+ */
 function animateEndScreen(status) {
   const img = document.getElementById(`${status}-img`);
   const btn = document.getElementById(`${status}-btn`);
-
   if (!img || !btn) return;
 
   setTimeout(() => {
@@ -182,4 +256,20 @@ function animateEndScreen(status) {
     img.classList.remove("op-1");
     btn.classList.add("op-1");
   }, 3000);
+}
+
+/**
+ * Toggles sound on/off and updates the sound button icon.
+ */
+function toggleSound() {
+  isSoundMuted = !isSoundMuted;
+
+  const soundBtn = document.getElementById("sound-button");
+  soundBtn.src = isSoundMuted ? "img/Icons/mute.png" : "img/Icons/unmute.png";
+
+  for (let key in sounds) {
+    if (sounds[key] instanceof HTMLAudioElement) {
+      sounds[key].muted = isSoundMuted;
+    }
+  }
 }

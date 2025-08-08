@@ -18,12 +18,20 @@ class BottleBar extends StatusBar {
     this.height = 60;
   }
 
+  /**
+   * Updates the displayed image based on the given percentage value.
+   * @param {number} percentage - The new percentage to set.
+   */
   setPercentage(percentage) {
     this.percentage = percentage;
     let path = this.IMAGES[this.resolveImageIndex()];
     this.img = this.imageCache[path];
   }
 
+  /**
+   * Resolves the appropriate image index based on the current percentage.
+   * @returns {number} The index of the image to display.
+   */
   resolveImageIndex() {
     if (this.percentage === 100) {
       return 5;

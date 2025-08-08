@@ -9,6 +9,9 @@ class Chicken extends MovableObject {
     "img/3_enemies_chicken/chicken_normal/1_walk/3_w.png",
   ];
 
+  /**
+   * Creates a new enemy chicken at position x with randomized speed.
+   */
   constructor(x) {
     super().loadImage("img/3_enemies_chicken/chicken_normal/1_walk/1_w.png");
     this.loadImages(this.IMAGES_WALKING);
@@ -17,7 +20,9 @@ class Chicken extends MovableObject {
     this.animate();
   }
 
-  // Start animation and movement intervals
+  /**
+   * Starts the animation and movement intervals.
+   */
   animate() {
     this.animationIntervals.push(
       setInterval(() => this.startAnimations(), 200)
@@ -25,21 +30,27 @@ class Chicken extends MovableObject {
     this.animationIntervals.push(setInterval(() => this.moveLeft(), 1000 / 60));
   }
 
-  // Play walking animation if game is active
+  /**
+   * Plays the walking animation if the game is active.
+   */
   startAnimations() {
     if (!gamePaused && gameStarted) {
       this.playAnimation(this.IMAGES_WALKING);
     }
   }
 
-  // Move the Enemy left if game is active
+  /**
+   * Moves the enemy left if the game is active.
+   */
   moveLeft() {
     if (!gamePaused && gameStarted) {
       super.moveLeft();
     }
   }
 
-  // Triggered when the Enemy is defeated
+  /**
+   * Triggers the enemy defeat behavior.
+   */
   eliminateEnemy() {
     this.energy = 0;
     this.stopAnimations();
@@ -47,14 +58,18 @@ class Chicken extends MovableObject {
     this.enableRemoval();
   }
 
-  // Allow the enemies to be removed after a delay
+  /**
+   * Allows the enemy to be removed after a short delay.
+   */
   enableRemoval() {
     setTimeout(() => {
       this.canBeRemoved = true;
     }, 400);
   }
 
-  // Clear all running animation intervals
+  /**
+   * Clears all running animation intervals.
+   */
   stopAnimations() {
     this.animationIntervals.forEach((intervalId) => {
       clearInterval(intervalId);

@@ -10,6 +10,10 @@ class CoinBar extends StatusBar {
 
   percentage = 100;
 
+  /**
+   * Constructor initializes the object by loading images,
+   * and sets initial position and size.
+   */
   constructor() {
     super().loadImage(this.IMAGES[5]);
     this.loadImages(this.IMAGES);
@@ -19,12 +23,24 @@ class CoinBar extends StatusBar {
     this.height = 60;
   }
 
+  /**
+   * Updates the displayed image according to the given percentage.
+   * Sets the image to the corresponding image in the image cache.
+   *
+   * @param {number} percentage - The current percentage (0 to 100).
+   */
   setPercentage(percentage) {
     this.percentage = percentage;
     let path = this.IMAGES[this.resolveImageIndex()];
     this.img = this.imageCache[path];
   }
 
+  /**
+   * Determines the image index based on the current percentage.
+   * Returns an index from 0 to 5, selecting which image to show.
+   *
+   * @returns {number} The index of the image to display.
+   */
   resolveImageIndex() {
     if (this.percentage === 100) {
       return 5;

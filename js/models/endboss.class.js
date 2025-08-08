@@ -58,7 +58,9 @@ class Endboss extends MovableObject {
     this.animate();
   }
 
-  // Start animation and movement loops
+  /**
+   * Starts the animation and movement intervals for the endboss.
+   */
   animate() {
     let walkingAnimation = setInterval(() => this.startAnimations(), 200);
     let animations = setInterval(() => this.playAnimations(), 100);
@@ -70,7 +72,9 @@ class Endboss extends MovableObject {
     );
   }
 
-  // Play walking animation when healthy
+  /**
+   * Plays walking animation if the endboss is at full health.
+   */
   startAnimations() {
     if (!gamePaused && gameStarted) {
       if (this.energy == 100) {
@@ -79,7 +83,9 @@ class Endboss extends MovableObject {
     }
   }
 
-  // Play animations based on health and state
+  /**
+   * Plays different animations based on endboss health and state.
+   */
   playAnimations() {
     if (!gamePaused && gameStarted) {
       if (this.isFirstHit()) {
@@ -97,29 +103,41 @@ class Endboss extends MovableObject {
     }
   }
 
-  // Checks first hit condition
+  /**
+   * Checks if endboss is at first hit state (energy 80).
+   * @returns {boolean}
+   */
   isFirstHit() {
     return this.energy == 80;
   }
 
-  // Show alert animation
+  /**
+   * Plays alert animation and sets first attack triggered.
+   */
   animateAlert() {
     this.hasTriggeredFirstAttack = true;
     this.playAnimation(this.IMAGES_ALERT);
   }
 
-  // Checks second hit condition
+  /**
+   * Checks if endboss is at second hit state (energy <= 60).
+   * @returns {boolean}
+   */
   isSecondHit() {
     return this.energy <= 60;
   }
 
-  // Show attacking animation
+  /**
+   * Plays attacking animation and resets first attack trigger.
+   */
   animateAttack() {
     this.hasTriggeredFirstAttack = false;
     this.playAnimation(this.IMAGES_ATTACKING);
   }
 
-  // Stop animations and play death animation
+  /**
+   * Stops all animations and plays death animation with sound effects.
+   */
   animateDeath() {
     this.clearIntervals();
     this.animateOnce(this.IMAGES_DEAD, "winScreen");
@@ -128,7 +146,9 @@ class Endboss extends MovableObject {
     sounds.win_sound.play();
   }
 
-  //  Move or attack based on position and health
+  /**
+   * Controls the endboss movement and attack behavior based on position and health.
+   */
   moveEndboss() {
     if (!gamePaused && gameStarted && !this.hasTriggeredFirstAttack) {
       if (this.isRightSideFullHealth()) {
@@ -146,8 +166,9 @@ class Endboss extends MovableObject {
     }
   }
 
-  // Position and health checks
-
+  /**
+   * Position and health state checks.
+   */
   isRightSideFullHealth() {
     return (
       this.energy == 100 &&
@@ -180,7 +201,9 @@ class Endboss extends MovableObject {
     );
   }
 
-  // Movement methods
+  /**
+   * Movement and attack commands for the endboss.
+   */
   moveLeft() {
     this.otherDirection = false;
     super.moveLeft();
@@ -205,13 +228,17 @@ class Endboss extends MovableObject {
     sounds.chicken_cluking.play();
   }
 
-  // Reduce energy on hit
+  /**
+   * Reduces energy by 20 when hit and updates last hit time.
+   */
   hitEndboss() {
     this.energy -= 20;
     this.lastHit = new Date().getTime();
   }
 
-  // Clear all animation intervals
+  /**
+   * Clears all active animation intervals.
+   */
   clearIntervals() {
     for (const interval of this.animationIntervals) {
       clearInterval(interval);

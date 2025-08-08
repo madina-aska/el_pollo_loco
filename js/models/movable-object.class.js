@@ -10,7 +10,9 @@ class MovableObject extends DrawableObject {
   canBeRemoved = false;
   animationIntervals = [];
 
-  // Applies gravity to the object by updating vertical position and speed
+  /**
+   * Applies gravity by adjusting the vertical position and speed of the object.
+   */
   applyGravity() {
     setInterval(() => {
       if (
@@ -23,7 +25,10 @@ class MovableObject extends DrawableObject {
     }, 1000 / 100);
   }
 
-  // Returns true if the object is above ground level
+  /**
+   * Checks whether the object is above ground level.
+   * @returns {boolean}
+   */
   isAboveGround() {
     if (this instanceof ThrowableObject) {
       return this.y < 550;
@@ -32,7 +37,11 @@ class MovableObject extends DrawableObject {
     }
   }
 
-  // Checks collision with another movable object
+  /**
+   * Checks if this object is colliding with another object.
+   * @param {MovableObject} mo
+   * @returns {boolean}
+   */
   isColliding(mo) {
     return (
       this.x + this.width - this.offset.right > mo.x + mo.offset.left &&
@@ -42,29 +51,43 @@ class MovableObject extends DrawableObject {
     );
   }
 
-  // Reduces energy and records hit timestamp
+  /**
+   * Reduces energy and records the time of the hit.
+   */
   hit() {
     this.energy -= 2.5;
     this.lastHit = new Date().getTime();
   }
 
-  // Checks if the object is still alive (has energy)
+  /**
+   * Checks if the object is still alive.
+   * @returns {boolean}
+   */
   isAlive() {
     return this.energy > 0;
   }
 
-  // Checks if the object was recently hurt
+  /**
+   * Checks if the object was recently hurt.
+   * @returns {boolean}
+   */
   isHurt() {
     let timePassed = new Date().getTime() - this.lastHit;
     return timePassed < 400;
   }
 
-  // Checks if the object is dead (energy is 0)
+  /**
+   * Checks if the object is dead.
+   * @returns {boolean}
+   */
   isDead() {
     return this.energy == 0;
   }
 
-  // Plays the next frame of an animation from a list of images
+  /**
+   * Plays the next frame of an animation using a given image list.
+   * @param {string[]} images
+   */
   playAnimation(images) {
     let i = this.currentImage % images.length;
     let path = images[i];
@@ -72,27 +95,39 @@ class MovableObject extends DrawableObject {
     this.currentImage++;
   }
 
-  // Moves the object to the right
+  /**
+   * Moves the object to the right.
+   */
   moveRight() {
     this.x += this.speedX;
   }
 
-  // Moves the object to the left
+  /**
+   * Moves the object to the left.
+   */
   moveLeft() {
     this.x -= this.speedX;
   }
 
-  // Moves the object quickly to the left (attack motion)
+  /**
+   * Moves the object quickly to the left (used for attacks).
+   */
   attackLeft() {
     this.x -= this.attackSpeedX;
   }
 
-  // Moves the object quickly to the right (attack motion)
+  /**
+   * Moves the object quickly to the right (used for attacks).
+   */
   attackRight() {
     this.x += this.attackSpeedX;
   }
 
-  // Plays an animation once, then ends the game.
+  /**
+   * Plays an animation sequence once and then ends the game with the given status.
+   * @param {string[]} images
+   * @param {string} status
+   */
   async animateOnce(images, status) {
     for (const image of images) {
       await new Promise((resolve) =>
@@ -108,12 +143,16 @@ class MovableObject extends DrawableObject {
     displayGameOverScreen(status);
   }
 
-  // Jumping speed
+  /**
+   * Makes the object jump upward.
+   */
   jump() {
     this.speedY = 10;
   }
 
-  // bounce up into the air
+  /**
+   * Makes the object bounce upward and plays a sound.
+   */
   bounceUp() {
     this.speedY = 9;
     sounds.bounce_sound.currentTime = 0;
