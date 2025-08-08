@@ -1,223 +1,213 @@
 @font-face {
-    font-family: 'Zabars';
-    src: url('fonts/zabars.ttf') format('truetype'); 
-}  
+  font-family: "Zabars";
+  src: url("fonts/zabars.ttf") format("truetype");
+}
 
 html {
-    height: 100%;
+  height: 100%;
 }
 
 body {
-    font-family: 'Zabars', Arial, Helvetica, sans-serif;
-    color: rgb(254, 184, 8);
-    letter-spacing: 4px;
-    height: 100%;
-    margin: 0;
-    background-image: url('./img/5_background/first_half_background.png');
-    background-repeat: no-repeat;
-    background-size: cover;
-    background-position: center;
+  font-family: "Zabars", Arial, Helvetica, sans-serif;
+  color: rgb(254, 184, 8);
+  letter-spacing: 4px;
+  height: 100%;
+  margin: 0;
+  background-image: url("./img/5_background/first_half_background.png");
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
 }
 
 .title {
-    margin: 0;
-    padding-top: 3rem;
-    padding-bottom: 2rem;
-    font-size: 5rem;
-    text-shadow: 5px 5px 4px rgba(0, 0, 0, 0.3);
+  margin: 0;
+  padding-top: 3rem;
+  padding-bottom: 2rem;
+  font-size: 5rem;
+  text-shadow: 5px 5px 4px rgba(0, 0, 0, 0.3);
 }
 
 .canvas {
-    display: block;
-    background-color: rgba(0, 0, 0, 0.5);
-    box-shadow: 4px 4px 16px rgba(0, 0, 0, 0.2);
+  display: block;
+  background-color: rgba(0, 0, 0, 0.5);
+  box-shadow: 4px 4px 16px rgba(0, 0, 0, 0.2);
 }
 
 .content {
-    height: 100%;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .game-wrapper {
-    position: relative;
-    max-width: 720px;
-    max-height: 480px;
-    height: 100%;
+  position: relative;
+  max-width: 720px;
+  max-height: 480px;
+  height: 100%;
 }
 
 .canvas-container {
-    position: relative;
-    width: 100%;
-    height: 100%;
-    display: flex;
-    justify-content: center;
+  position: relative;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
 }
 
 .start-screen {
-    width: 100%;
-    height: 100%;
-    aspect-ratio: 720 / 480;
-    display: flex;
-    justify-content: center;
+  width: 100%;
+  height: 100%;
+  aspect-ratio: 720 / 480;
+  display: flex;
+  justify-content: center;
 }
 
 .start-screen-img {
-    display: block;
-    max-width: 720px;
-    width: 100%;
-    aspect-ratio: 720 / 480;
+  display: block;
+  max-width: 720px;
+  width: 100%;
+  aspect-ratio: 720 / 480;
 }
 
-
 .play-button-container {
-    position: absolute;
-    top: 2rem;
-    display: flex;
-    align-items: center;
-    
+  position: absolute;
+  top: 2rem;
+  display: flex;
+  align-items: center;
 }
 
 .main-button {
-    text-align: center;
-    font-family: inherit;
-    color: rgb(254, 184, 8);
-    letter-spacing: 4px;
-    box-shadow: 0 0 9px rgba(0, 0, 0, 0.35);
-    -webkit-text-stroke: 0.5px rgba(0, 0, 0, 0.4);
-    font-size: 1.5rem;
-    padding: 0.5rem 1.2rem;
-    background-color: white;
-    border-radius: 0.5rem;
-    cursor: pointer;
-    transition: all .1s ease-in-out;
+  text-align: center;
+  font-family: inherit;
+  color: rgb(254, 184, 8);
+  letter-spacing: 4px;
+  box-shadow: 0 0 9px rgba(0, 0, 0, 0.35);
+  -webkit-text-stroke: 0.5px rgba(0, 0, 0, 0.4);
+  font-size: 1.5rem;
+  padding: 0.5rem 1.2rem;
+  background-color: white;
+  border-radius: 0.5rem;
+  cursor: pointer;
+  transition: all 0.1s ease-in-out;
 }
 
 .main-button:hover {
-    transform: scale(1.05);
+  transform: scale(1.05);
 }
 
 .main-button:active {
-    transform: scale(1);
+  transform: scale(1);
 }
-
 
 .d-none {
-    display: none;
+  display: none;
 }
 
-
 .icon-container {
-    padding: 0.55rem;
-    background-color: transparent;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    transition: all .25s ease-in-out;
-    
-    
+  padding: 0.55rem;
+  background-color: transparent;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.25s ease-in-out;
 }
 
 .icon-container:hover {
-    background-color: #FFC100;
+  background-color: #ffc100;
 }
 
 .icon {
-    display: inline-block;
-    width: 24px;
-    -webkit-filter: invert(100%)
-    drop-shadow(0 0 2px rgb(0 0 0 / 0.25));
-    filter: invert(100%)
-    drop-shadow(0 0 2px rgb(0 0 0 / 0.25));
-    transition: all .25s ease-in-out;
+  display: inline-block;
+  width: 24px;
+  -webkit-filter: invert(100%) drop-shadow(0 0 2px rgb(0 0 0 / 0.25));
+  filter: invert(100%) drop-shadow(0 0 2px rgb(0 0 0 / 0.25));
+  transition: all 0.25s ease-in-out;
 }
 
 .end-screen {
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    width: 100%;
-    height: 100%;
-    aspect-ratio: 720 / 480;
-    overflow: hidden;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  width: 100%;
+  height: 100%;
+  aspect-ratio: 720 / 480;
+  overflow: hidden;
 }
 
 .winScreen,
 .loseScreen {
-    width: 100%;
-    height: 100%;
+  width: 100%;
+  height: 100%;
 }
 
 .winScreen-img,
 .loseScreen-img {
-    display: block;
-    width: 100%;
-    height: 100%;
-    aspect-ratio: 720 / 480;
-    opacity: 0;
-    transition: opacity .5s ease-in-out;
+  display: block;
+  width: 100%;
+  height: 100%;
+  aspect-ratio: 720 / 480;
+  opacity: 0;
+  transition: opacity 0.5s ease-in-out;
 }
 
 .winScreen-button-container,
 .loseScreen-button-container {
-    position: absolute;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    top: 0;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    opacity: 0;
-    transition: opacity .25s ease-in-out;
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  top: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  opacity: 0;
+  transition: opacity 0.25s ease-in-out;
 }
 
 .op-1 {
-    opacity: 1;
+  opacity: 1;
 }
 
 .icons-mobile {
-    position: absolute;
-    bottom: 0.5rem;
-    left: 2rem;
-    right: 2rem;
-    display: flex;
-    justify-content: right;
-    z-index: 100;
-    pointer-events: none; 
-   
+  position: absolute;
+  bottom: 0.1rem;
+  left: 2rem;
+  right: 2rem;
+  display: flex;
+  justify-content: right;
+  z-index: 100;
+  pointer-events: none;
 }
 
 .arrow-icons {
-    display: flex;
-    gap: 1rem;
-  
+  display: flex;
+  gap: 1rem;
 }
 
 .rotate-message {
-    position: absolute;
-    top: 0;
-    bottom: 0;
-    right: 0;
-    left: 0;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    display: none;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  left: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  display: none;
 }
 
 .rotate-device {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 }
 
 .d-flex {
-    display: flex;
+  display: flex;
 }
 
 /* ------------------ Impressum ------------------ */
@@ -226,206 +216,202 @@ body {
   position: relative; /* Needed for absolute positioning inside */
 }
 
- .impressum-link {
-  position: absolute; 
-  bottom: 10px;      
-  left: 20px;      
+.impressum-link {
+  position: absolute;
+  bottom: 10px;
+  left: 20px;
   color: white;
   padding: 10px 15px;
   text-decoration: none;
   font-size: 25px;
-  z-index: 10;        
+  z-index: 10;
   width: auto;
   max-width: 120px;
   letter-spacing: 4px;
 }
 
 .impressum-link:hover {
-    transform: scale(1.05);
+  transform: scale(1.05);
 }
 
 /* -------------------Responsive --------------------- */
 
 @media only screen and (max-width: 991.98px) {
-   
-    .icons-mobile {
-        display: flex;
-        pointer-events: auto;
-    }
+  .icons-mobile {
+    display: flex;
+    pointer-events: auto;
+  }
 
-    .icon-container:hover {
-        background-color: unset;
-    }
+  .icon-container:hover {
+    background-color: unset;
+  }
 
-    .icon-container:active {
-        background-color: #FFC100;
-    }
-}
-
-@media only screen and (max-width: 720px) {
-    .content {
-        justify-content: center;
-    }
-
-    .title {
-        padding-top: 0;
-    }
-
-    .game-wrapper {
-        width: 100%;
-    }
-
-    .canvas {
-        width: 100%;
-    }
-
-    .end-screen {
-        width: 100%;
-    }
-
-    .main-button {
-        font-size: 1.75rem;
-    }
-
-}
-
-@media only screen and (max-width: 575.98px) {
-    .rotate-message {
-        display: flex;
-    }
-
-    .play-button-container {
-        left: 2rem;
-        right: 2rem;
-        gap: 1rem;
-    }
-
-
-    .icons-mobile {
-        display: none !important;
-    }
-
-
-    .impressum-link {
-        display: none;
-    }    
-}
-
-@media only screen and (max-height: 480px) {
-    .title {
-        display: none;
-    }
-
-    body {
-        height: 100vh;
-    }
-
-    .canvas-container {
-        height: 100vh;
-    }
-
-    .canvas {
-        height: 100vh;
-    }
-
-    .start-screen-img {
-        height: 100vh;
-    }
-
-    .end-screen {
-        height: 100vh;
-    }
-
-    .loseScreen-img,
-    .winScreen-img {
-        height: 100vh;
-    }
-
-    .icons-center {
-        gap: 0.5rem;
-    }
-
-    .icons-mobile {
-        display: flex;
-    }
-
-    .icon-container:hover {
-        background-color: unset;
-    }
-
-    .icon-container:active {
-        background-color: #FFC100;
-    }
-
-    .rotate-message {
-        display: none;
-    }
-
-    .play-button-container {
-        justify-content: center;
-    }
-
-    .icon-container {
-        padding: 0.6rem;
-    }
-
-    /* Left icon */
-    #btn-left img.icon {
-        content: url('./img/Icons/mobile-left.png'); 
-    }
-
-    /* Right icon */
-    #btn-right img.icon {
-        content: url('./img/Icons/mobile-right.png'); 
-    }
-
-    /* Jump icon */
-    #btn-jump img.icon {
-        content: url('./img/Icons/mobile-up.png'); 
-    }
-
-   
-    #btn-throw {
-        content: url('./img/Icons/mobile-throw.png');
-        width: 3rem;
-        height: 3rem;
-        background-color: white;
-        border: 2px solid #936e6e;
-        border-radius: 50%;  
-    }
-
-    /* Hide text inside btn-throw */
-    #btn-throw span {
-        display: none;
-    }
-   #btn-left span {
-        display: none;
-    }
-    #btn-right span {
-        display: none;
-    }
-    #btn-jump span {
-        display: none;
-    }
-
-    #icons-mobile .icon {
-    filter: none !important;
-    background-color: transparent !important;
-    opacity: 1 !important;
-    width: 60px;
-    height: 60px;
-  
-}
-
-
-@media (max-width: 600px) {
-    
-  .impressum-link {
-    font-size: 1rem;
-    display: block;
-    margin: 1rem auto;
+  .icon-container:active {
+    background-color: #ffc100;
   }
 }
 
+@media only screen and (max-width: 720px) {
+  .content {
+    justify-content: center;
+  }
 
+  .title {
+    padding-top: 0;
+  }
+
+  .game-wrapper {
+    width: 100%;
+  }
+
+  .canvas {
+    width: 100%;
+  }
+
+  .end-screen {
+    width: 100%;
+  }
+
+  .main-button {
+    font-size: 1.75rem;
+  }
+}
+
+@media only screen and (max-width: 575.98px) {
+  .rotate-message {
+    display: flex;
+  }
+
+  .play-button-container {
+    left: 2rem;
+    right: 2rem;
+    gap: 1rem;
+  }
+
+  .icons-mobile {
+    display: none !important;
+  }
+
+  .impressum-link {
+    display: none;
+  }
+}
+
+@media only screen and (max-height: 480px) {
+  .title {
+    display: none;
+  }
+
+  body {
+    height: 100vh;
+  }
+
+  .canvas-container {
+    height: 100vh;
+  }
+
+  .canvas {
+    height: 100vh;
+  }
+
+  .start-screen-img {
+    height: 100vh;
+  }
+
+  .end-screen {
+    height: 100vh;
+  }
+
+  .loseScreen-img,
+  .winScreen-img {
+    height: 100vh;
+  }
+
+  .icons-center {
+    gap: 0.5rem;
+  }
+
+  .icons-mobile {
+    display: flex;
+  }
+
+  .icon-container:hover {
+    background-color: unset;
+  }
+
+  .icon-container:active {
+    background-color: #ffc100;
+  }
+
+  .rotate-message {
+    display: none;
+  }
+
+  .play-button-container {
+    justify-content: center;
+  }
+
+  .icon-container {
+    padding: 0.6rem;
+  }
+
+  /* Left icon */
+  #btn-left img.icon {
+    content: url("./img/Icons/mobile-left.png");
+  }
+
+  /* Right icon */
+  #btn-right img.icon {
+    content: url("./img/Icons/mobile-right.png");
+  }
+
+  /* Jump icon */
+  #btn-jump img.icon {
+    content: url("./img/Icons/mobile-up.png");
+  }
+
+  #btn-throw {
+    content: url("./img/Icons/mobile-throw.png");
+    width: 1.8rem;
+    height: 1.8rem;
+    background-color: white;
+    border: 2px solid #936e6e;
+    border-radius: 50%;
+    margin-top: 0.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.2rem;
+  }
+
+  /* Hide text inside btn-throw */
+  #btn-throw span {
+    display: none;
+  }
+
+  #btn-left span {
+    display: none;
+  }
+  #btn-right span {
+    display: none;
+  }
+  #btn-jump span {
+    display: none;
+  }
+
+  .icons-mobile .icon {
+    filter: none !important;
+    background-color: transparent !important;
+    opacity: 1 !important;
+    width: 40px;
+    height: 40px;
+  }
+}
+
+@media (max-width: 600px) {
+  .impressum-link {
+    font-size: 1rem;
+    display: none;
+    margin: 1rem auto;
+  }
 }
