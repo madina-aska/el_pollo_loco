@@ -4,9 +4,7 @@
  */
 
 let level1;
-
-    function setupLevel() {
-        
+    function setupLevel() {  
     level1 = new Level(
         [
             new BackgroundObject('img/5_background/layers/air.png', -719),
