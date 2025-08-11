@@ -111,19 +111,12 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
-  cursor: pointer;
   transition: all 0.25s ease-in-out;
-}
-
-.icon-container:hover {
-  background-color: #ffc100;
 }
 
 .icon {
   display: inline-block;
   width: 24px;
-  -webkit-filter: invert(100%) drop-shadow(0 0 2px rgb(0 0 0 / 0.25));
-  filter: invert(100%) drop-shadow(0 0 2px rgb(0 0 0 / 0.25));
   transition: all 0.25s ease-in-out;
 }
 
@@ -177,6 +170,35 @@ body {
 
 .icons-mobile {
   position: absolute;
+  bottom: 0.3rem;
+  left: 1rem;
+  right: 1rem;
+  display: none;
+  justify-content: right;
+  z-index: 100;
+  pointer-events: none;
+}
+
+.icons-mobile span {
+  display: none;
+}
+
+.icons-mobile .icon {
+  width: 60px; 
+  height: auto; 
+}
+
+#btn-throw {
+  background-color: white;
+  border: 2px solid #936e63; 
+  border-radius: 50%;
+  width: 35px;
+  height: 35px;
+  margin-top: 0.7rem;
+}
+
+.icons-desktop {
+  position: absolute;
   bottom: 0.1rem;
   left: 2rem;
   right: 2rem;
@@ -215,7 +237,7 @@ body {
 
 /* ------------------ Impressum ------------------ */
 
-#canvas-container {
+.canvas-container {
   position: relative; 
 }
 
@@ -281,72 +303,38 @@ body {
 }
 
 /* -------------------Responsive --------------------- */
+/* -------------------Desktop ------------------------ */
+@media (hover: hover) and (pointer: fine) {
+  .icons-desktop {
+    display: flex !important;
+    pointer-events: auto !important;
+  }
+  .icons-mobile {
+    display: none !important;
+    pointer-events: none !important;
+  }
 
-@media only screen and (max-width: 1100px) {
+  .icons-desktop .icon {
+    filter: invert(100%) drop-shadow(0 0 2px rgba(0, 0, 0, 0.25));
+  }
+}
+
+/* ------------Mobile portrait and landscape---------- */
+@media (hover: none) and (orientation: portrait),
+       (hover: none) and (orientation: landscape) {
   .icons-mobile {
     display: flex !important;
     pointer-events: auto !important;
   }
-
-  
-  #btn-left img.icon {
-    content: url("./img/Icons/mobile-left.png");
-  }
-
-  
-  #btn-right img.icon {
-    content: url("./img/Icons/mobile-right.png");
-  }
-
-
-  #btn-jump img.icon {
-    content: url("./img/Icons/mobile-up.png");
-  }
-
-  #btn-throw {
-    content: url("./img/Icons/mobile-throw.png");
-    width: 1.8rem;
-    height: 1.8rem;
-    background-color: white;
-    border: 2px solid #936e6e;
-    border-radius: 50%;
-    margin-top: 0.5rem;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 0.2rem;
-  }
-
-
-  #btn-throw span {
-    display: none;
-  }
-
-  #btn-left span {
-    display: none;
-  }
-  #btn-right span {
-    display: none;
-  }
-  #btn-jump span {
-    display: none;
-  }
-
-  .icons-mobile .icon {
-    filter: none !important;
-    background-color: transparent !important;
-    opacity: 1 !important;
-    width: 40px;
-    height: 40px;
+  .icons-desktop {
+    display: none !important;
+    pointer-events: none !important;
   }
 }
 
-@media only screen and (max-width: 991.98px) {
-  .icons-mobile {
-    display: flex;
-    pointer-events: auto;
-  }
 
+@media only screen and (max-width: 991.98px) {
+  
   .icon-container:hover {
     background-color: unset !important;
   }
@@ -383,27 +371,19 @@ body {
 }
 
 @media only screen and (max-width: 575.98px) {
-  .rotate-message {
-    display: flex;
-  }
 
-  .play-button-container {
-    left: 2rem;
-    right: 2rem;
-    gap: 1rem;
-  }
-
-  .icons-mobile {
+  .icons-mobile,
+  .icons-desktop,
+  .play-button-container,
+  .sound-button,
+  .impressum-link {
     display: none !important;
   }
 
-  .impressum-link {
-    display: none;
+  .rotate-message {
+    display: flex !important;
   }
 
-  .sound-button {
-    display: none;
-  }
 }
 
 @media only screen and (max-height: 480px) {
@@ -438,10 +418,6 @@ body {
 
   .icons-center {
     gap: 0.5rem;
-  }
-
-  .icons-mobile {
-    display: flex;
   }
 
   .icon-container:hover {
