@@ -21,12 +21,17 @@ let sounds = {
   chicken_cluking: new Audio("audio/chicken-cluking.mp3"),
 };
 
+if (localStorage.getItem("isSoundMuted") !== null) {
+  isSoundMuted = localStorage.getItem("isSoundMuted") === "true";
+}
+
 /**
  * Initializes the game when the window is fully loaded.
  * Sets up the level and key listeners.
  */
 window.onload = function () {
   setupLevel();
+  applySoundSetting();
 
   /**
    * Handles keyboard key press events.
@@ -43,9 +48,11 @@ window.onload = function () {
   };
 
   /**
-   * Handles keyboard key release events.
-   * Resets corresponding flags in the `keyboard` object.
-   */
+  * Initializes mobile touch controls for movement and actions.
+  * Delayed slightly to ensure DOM elements are loaded.
+  * Adds touch event listeners that prevent default behavior only if the event is cancelable,
+  * to avoid browser warnings while ensuring game controls work smoothly on touch devices.
+  */
   document.onkeyup = function (e) {
     let key = e.key;
     if (key == "ArrowRight") keyboard.RIGHT = false;
@@ -60,86 +67,74 @@ window.onload = function () {
 };
 
 /**
- * Initializes mobile touch controls for movement and actions.
- * Delayed slightly to ensure DOM elements are loaded.
+ * Sets up touch event handlers for a given button and keyboard key mapping.
+ * The handlers set the corresponding key flag in the keyboard object on touch start/end.
+ * Calls e.preventDefault() only if the event is cancelable to avoid browser warnings.
+ * 
+ * @param {string} buttonId - The ID of the button element.
+ * @param {string} keyName - The name of the key in the keyboard object to toggle.
  */
-setTimeout(function () {
-  let btnLeft = document.getElementById("btn-left");
-  let btnRight = document.getElementById("btn-right");
-  let btnJump = document.getElementById("btn-jump");
-  let btnThrow = document.getElementById("btn-throw");
+setTimeout(initTouchControls, 100);
 
-  if (btnLeft) {
-    btnLeft.ontouchstart = function (e) {
-      e.preventDefault();
-      keyboard.LEFT = true;
-    };
-    btnLeft.ontouchend = function (e) {
-      e.preventDefault();
-      keyboard.LEFT = false;
-    };
-  }
+function initTouchControls() {
+  setupTouchControl("btn-left", "LEFT");
+  setupTouchControl("btn-right", "RIGHT");
+  setupTouchControl("btn-jump", "SPACE");
+  setupTouchControl("btn-throw", "D");
+}
 
-  if (btnRight) {
-    btnRight.ontouchstart = function (e) {
-      e.preventDefault();
-      keyboard.RIGHT = true;
-    };
-    btnRight.ontouchend = function (e) {
-      e.preventDefault();
-      keyboard.RIGHT = false;
-    };
-  }
+function setupTouchControl(buttonId, keyName) {
+  const btn = document.getElementById(buttonId);
+  if (!btn) return;
 
-  if (btnJump) {
-    btnJump.ontouchstart = function (e) {
-      e.preventDefault();
-      keyboard.SPACE = true;
-    };
-    btnJump.ontouchend = function (e) {
-      e.preventDefault();
-      keyboard.SPACE = false;
-    };
-  }
+  btn.ontouchstart = function (e) {
+    if (e.cancelable) e.preventDefault();
+    keyboard[keyName] = true;
+  };
 
-  if (btnThrow) {
-    btnThrow.ontouchstart = function (e) {
-      e.preventDefault();
-      keyboard.D = true;
-    };
-    btnThrow.ontouchend = function (e) {
-      e.preventDefault();
-      keyboard.D = false;
-    };
-  }
-}, 100);
+  btn.ontouchend = function (e) {
+    if (e.cancelable) e.preventDefault();
+    keyboard[keyName] = false;
+  };
+}
+
 
 /**
- * Loads and displays the Impressum modal using AJAX.
+ * Initializes the Impressum modal functionality.
+ * Sets up click handlers for opening and closing the Impressum modal.
  */
 function setupImpressumLoader() {
-  var link = document.getElementById("impressum-link");
-  var modal = document.getElementById("impressum-modal");
-  var content = document.getElementById("impressum-content-container");
-  var back = modal.querySelector("a.main-button");
+  const link = document.getElementById("impressum-link");
+  const modal = document.getElementById("impressum-modal");
+  const content = document.getElementById("impressum-content-container");
+  const back = modal.querySelector("a.main-button");
 
-  link.onclick = function (event) {
-    event.preventDefault();
+  link.onclick = e => { e.preventDefault(); loadImpressum(content, modal); };
+  back.onclick = e => { e.preventDefault(); closeImpressum(content, modal); };
+}
 
-    var request = new XMLHttpRequest();
-    request.open("GET", "impressum.html", true);
-    request.onload = function () {
-      content.innerHTML = request.responseText;
-      modal.classList.remove("d-none");
-    };
-    request.send();
-  };
 
-  back.onclick = function (event) {
-    event.preventDefault();
-    modal.classList.add("d-none");
-    content.innerHTML = "";
-  };
+/**
+ * Loads the Impressum content asynchronously into the modal.
+ * @param {HTMLElement} content - The container where Impressum HTML will be inserted.
+ * @param {HTMLElement} modal - The modal element to show after content loads.
+ */
+function loadImpressum(content, modal) {
+  const req = new XMLHttpRequest();
+  req.open("GET", "impressum.html");
+  req.onload = () => { content.innerHTML = req.responseText; modal.classList.remove("d-none"); };
+  req.send();
+}
+
+
+/**
+ * Closes the Impressum modal and clears its content.
+ * @param {HTMLElement} content - The container whose content will be cleared.
+ * @param {HTMLElement} modal - The modal element to hide.
+ */
+function closeImpressum(content, modal) {
+  content.innerHTML = "";
+  modal.classList.add("d-none");
 }
 
 /**
@@ -263,10 +258,16 @@ function animateEndScreen(status) {
  */
 function toggleSound() {
   isSoundMuted = !isSoundMuted;
+  localStorage.setItem("isSoundMuted", isSoundMuted);
+  applySoundSetting();
+}
 
+
+function applySoundSetting() {
   const soundBtn = document.getElementById("sound-button");
-  soundBtn.src = isSoundMuted ? "img/Icons/mute.png" : "img/Icons/unmute.png";
-
+  if (soundBtn) {
+    soundBtn.src = isSoundMuted ? "img/Icons/mute.png" : "img/Icons/unmute.png";
+  }
   for (let key in sounds) {
     if (sounds[key] instanceof HTMLAudioElement) {
       sounds[key].muted = isSoundMuted;
